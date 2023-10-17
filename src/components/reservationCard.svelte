@@ -1,5 +1,6 @@
 <script lang="ts">
   import Button from './common/button.svelte';
+  import Link from './common/link.svelte'
   import Trash from '../../static/trash.svg?raw'
   import Phone from '../../static/phone.svg?raw'
   import Event from '../../static/event_available.svg?raw'
@@ -29,7 +30,7 @@
 </script>
 
 <li>
-  <a href={data.params} class="card-box">
+  <a href={`/edit/${data.params}`} class="card-box">
     <div class="row mb-20 flex-g-20">
       <p class="bold">{data.name}</p>
       <span class="phone">{@html Phone} {data.phoneNumber}</span>
@@ -52,8 +53,10 @@
       <Button handleClick={handleTrashClick}>
         {@html Trash}
       </Button>
+
       <Button handleClick={handleSeatedClick} {customClass}>
         Seated
+    
       </Button>
     </div>
   </a>

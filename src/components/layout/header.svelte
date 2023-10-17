@@ -1,18 +1,13 @@
-<script>
-  import Button from '../common/button.svelte'
-  import PlusIcon from '../../../static/add.svg?raw'
+<script lang="ts">
   import XmarkIcon from '../../../static/close.svg?raw'
-  let buttonContent = 'new reservation'
-  let handleClick
-  export let title;
-  let customClass = 'orange'
+  // let handleClick: (event: MouseEvent) => void;
+
+  export let title: string;
+
 </script>
 
 <header>
-  <Button {handleClick} {customClass}>
-  {@html PlusIcon}
-    new reservation
-  </Button>
+  <slot></slot>
   <h1>{title}</h1>
   <button class="x-mark-btn">  {@html XmarkIcon}</button>
 </header>
