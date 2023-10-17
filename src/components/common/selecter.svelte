@@ -1,0 +1,175 @@
+<script lang="ts">
+  import SelectIcon from '../../../static/arrow_drop_down.svg?raw'
+  import XmarkIcon from '../../../static/close.svg?raw'
+  export let customClass: string = '';
+  // export let handleClick: (event: MouseEvent) => void;
+  let isActive: boolean | undefined = false;
+  let spanElement:HTMLSpanElement | undefined
+  function updateIsActive() {
+    isActive = !isActive;
+  }
+  function handleClick() {
+    isActive = !isActive;
+  }
+</script>
+
+
+<div class="select-box">
+  <button on:click={handleClick} class='selector'     class:active={isActive}
+  on:focus={updateIsActive}
+  on:blur={updateIsActive}
+  >
+    <span
+    class:active={isActive}
+    class="select-name"
+    >
+      <slot></slot>
+    </span>
+    <ul class="selected-list" class:active={isActive}>
+      <li class="selected-item">
+        <button on:click={handleClick} >
+          <p>
+
+            안녕
+          </p>
+          <span class="close-icon">
+            <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <g id="close">
+              <path id="close_2" d="M8.30056 6.41482C7.77986 5.89412 6.93564 5.89412 6.41494 6.41482C5.89424 6.93552 5.89424 7.77974 6.41494 8.30043L14.1146 16.0001L6.41502 23.6996C5.89432 24.2203 5.89432 25.0646 6.41502 25.5853C6.93572 26.106 7.77994 26.106 8.30064 25.5853L16.0002 17.8857L23.6998 25.5853C24.2205 26.106 25.0647 26.106 25.5854 25.5853C26.1061 25.0646 26.1061 24.2203 25.5854 23.6996L17.8858 16.0001L25.5855 8.30043C26.1062 7.77974 26.1062 6.93552 25.5855 6.41482C25.0648 5.89412 24.2206 5.89412 23.6999 6.41482L16.0002 14.1145L8.30056 6.41482Z" />
+              </g>
+              </svg>
+          </span>
+        </button>
+      </li>
+    </ul>
+    <span class="select-icon" class:active={isActive}>
+      {@html SelectIcon}
+    </span>
+  </button>
+  <ul class="select-list" class:active={isActive}>
+    <li class="select-item">
+      <button on:click={handleClick} >
+        안녕
+      </button>
+    </li>
+    <li class="select-item">
+      <button on:click={handleClick} >
+        안녕
+      </button>
+    </li>
+    <li class="select-item">
+      <button on:click={handleClick} >
+        안녕
+      </button>
+    </li>
+    <li class="select-item">
+      <button on:click={handleClick} >
+        안녕
+      </button>
+    </li>
+  </ul>
+</div>
+
+
+<style>
+  .select-box{
+    width: 60%;
+    position: relative;
+
+    /* max-height: 65px; */
+  }
+  .select-name{
+    padding: 4px 8px;
+    background-color: #fff;
+    border-radius: 20px;
+    transition: all 0.3s ease-in-out;
+    position: absolute;
+    top: 50%;
+    left: 20px;
+    transform: translate(0, -50%);
+  }
+  .select-name.active{
+    transform: translate(0, -170%);
+  }
+  .select-icon{
+    position: absolute;
+    top: 50%;
+    right: 36px;
+    transform: translate(0, -45%);
+    transition: all 0.3s ease-in-out;
+  }
+  .select-icon.active{
+    transform: rotate(180deg) translate(0, 22px);
+  }
+  .selector{
+    width: 100%;
+    height: 65px;
+    padding: 20px 36px 20px 26px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    border-radius: 8px;
+    border:#DBD9D7 1px solid;
+    color: #ADA7A4;
+    transition: all 0.3s ease-in-out;
+  }
+  .selector.active{
+    border-radius: 8px 8px 0px 0px;
+  }
+  .select-list{
+    width: 100%;
+    height: 100px;
+    background-color: #fff;
+    position: absolute;
+    padding: 16px;
+    border:#DBD9D7 1px solid;
+    border-top: none;
+    display: none;
+    transition: all 0.3s ease-in-out;
+  }
+  .select-list.active{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    align-items: flex-start;
+  }
+  .select-item{
+    padding: 12px 20px;
+    border:#DBD9D7 1px solid;
+    border-radius: 30px;
+    display: inline-block;
+  }
+  .selected-list{
+    width: 100%;
+    display: none;
+  }
+  .selected-list.active{
+    display: flex;
+  }
+  .selected-item{
+    background-color: #F5F5F4;
+    padding: 8px 20px;
+    border-radius: 30px;
+    display: inline-block;
+  }
+  .selected-item button{
+    display: flex;
+    gap: 8px;
+  }
+  .close-icon{
+    background-color: #D6D3D1;
+    padding: 1px;
+    width: 20px;
+    height: 20px;
+    border-radius: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .close-icon > svg{
+    width: 16px;
+    height: 16px;
+    fill:#fff;
+  }
+</style>

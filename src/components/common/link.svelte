@@ -1,24 +1,21 @@
 <script lang="ts">
-  // export let buttonContent: string;
+  export let route: string;
   export let customClass: string = '';
-  export let handleClick: (event: MouseEvent) => void;
+
   $: combinedClass = `${customClass} btn`
 </script>
 
-<button on:click={handleClick} class={combinedClass}>
+<a href={route} class={combinedClass}>
   <slot></slot>
-</button>
+</a>
 
 <style>
   .btn{
-    min-width: 60px;
-    min-height: 60px;
-    max-height: 65px;
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
     gap: 12px;
-    padding: 16px 12px;
+    padding: 16px ;
     box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.2);
     border-radius: 8px;
     background: linear-gradient(180deg, #FEFEFE 0%, #F8F8F7 57.29%, #F6F6F5 100%);
@@ -33,7 +30,4 @@
     flex: 7;
     justify-content:center;
   }
-  .flex-1{
-  flex: 1;
-}
 </style>
