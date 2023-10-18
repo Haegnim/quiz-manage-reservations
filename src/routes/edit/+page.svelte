@@ -5,6 +5,7 @@
 	import Selecter from '../../components/common/selecter.svelte';
 	import PlusIcon from '../../../static/math-plus.svg?raw';
 	import MinusIcon from '../../../static/math-minus.svg?raw';
+	import SelectDate from '../../components/selectDate.svelte';
 	let handleClick = () => {};
 	let type: 'button' | 'submit' = 'submit';
 	let mathClass = 'flex-1';
@@ -38,17 +39,22 @@
 	<div class="row w-100 mb-70">
 		<Input name={'name'} bind:value={nameInputValue} />
 		<Input name={'phone'} bind:value={phoneInputValue} />
-		<Button {handleClick} customClass={mathClass}>Select Date</Button>
+		<SelectDate />
+		<!-- <Button {handleClick} customClass={mathClass}>Select Date</Button> -->
 	</div>
 
 	<div class="row w-100 mb-70">
 		<div class="row">
 			Guests
-			<Button handleClick={handlePlusClick} customClass={mathClass}>{@html PlusIcon}</Button>
+			<Button handleClick={handleMinusClick} customClass={mathClass}>
+				{@html MinusIcon}
+			</Button>
 			<span class="count">
 				{count}
 			</span>
-			<Button handleClick={handleMinusClick} customClass={mathClass}>{@html MinusIcon}</Button>
+			<Button handleClick={handlePlusClick} customClass={mathClass}>
+				{@html PlusIcon}
+			</Button>
 		</div>
 		<Selecter bind:selectOption>Select Table</Selecter>
 	</div>
