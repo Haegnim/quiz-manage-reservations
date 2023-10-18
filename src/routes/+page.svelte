@@ -3,7 +3,7 @@
 	import Link from '../components/common/link.svelte';
 	import PlusIcon from '../../static/add.svg?raw';
 	import ReservationCard from '../components/reservationCard.svelte';
-	import { reservation } from '../store/stores.js';
+	import { reservation, addReserve } from '../store/stores.ts';
 	let title = 'Reservation';
 	let route = '/edit';
 	let customClass = 'orange';

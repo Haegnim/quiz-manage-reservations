@@ -15,17 +15,13 @@
 		date: string;
 		params: string;
 	};
-	export let customClass = 'seated';
+	export let customClass = 'bg-orange';
 	const handleTrashClick = (event: MouseEvent) => {
 		event.preventDefault();
-		console.log('Trash button clicked');
-		// 여기에 Trash 버튼을 클릭했을 때 수행할 동작을 작성합니다.
 	};
 
 	const handleSeatedClick = (event: MouseEvent) => {
 		event.preventDefault();
-		console.log('Seated button clicked');
-		// 여기에 Seated 버튼을 클릭했을 때 수행할 동작을 작성합니다.
 	};
 </script>
 
