@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import Header from '../components/layout/header.svelte';
   import Link from '../components/common/link.svelte';
   import PlusIcon from '../../static/add.svg?raw'

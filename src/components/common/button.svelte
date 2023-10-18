@@ -1,39 +1,40 @@
 <script lang="ts">
-  // export let buttonContent: string;
-  export let customClass: string = '';
-  export let handleClick: (event: MouseEvent) => void;
-  $: combinedClass = `${customClass} btn`
+	// export let buttonContent: string;
+	export let type: 'button' | 'submit' = 'button';
+	export let customClass: string = '';
+	export let handleClick: (event: MouseEvent) => void;
+	$: combinedClass = `${customClass} btn`;
 </script>
 
-<button on:click={handleClick} class={combinedClass}>
-  <slot></slot>
+<button on:click={handleClick} class={combinedClass} {type}>
+	<slot />
 </button>
 
 <style>
-  .btn{
-    min-width: 60px;
-    min-height: 60px;
-    max-height: 65px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 12px;
-    padding: 16px 12px;
-    box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.2);
-    border-radius: 8px;
-    background: linear-gradient(180deg, #FEFEFE 0%, #F8F8F7 57.29%, #F6F6F5 100%);
-    font-size: 24px;
-  }
-  .orange {
-    color: #EC551F;
-  }
-  .seated{
-    color: #fff;
-    background: linear-gradient(180deg, #EF7144 0%, #DF4C18 70%, #D94714 100%);
-    flex: 7;
-    justify-content:center;
-  }
-  .flex-1{
-  flex: 1;
-}
+	.btn {
+		min-width: 60px;
+		min-height: 60px;
+		max-height: 65px;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		gap: 12px;
+		padding: 16px 12px;
+		box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.2);
+		border-radius: 8px;
+		background: linear-gradient(180deg, #fefefe 0%, #f8f8f7 57.29%, #f6f6f5 100%);
+		font-size: 24px;
+	}
+	.orange {
+		color: #ec551f;
+	}
+	.bg-orange {
+		color: #fff;
+		background: linear-gradient(180deg, #ef7144 0%, #df4c18 70%, #d94714 100%);
+		flex: 7;
+		justify-content: center;
+	}
+	.flex-1 {
+		flex: 1;
+	}
 </style>
