@@ -6,7 +6,7 @@
 	import Event from '../../static/event_available.svg?raw';
 	import Group from '../../static/group.svg?raw';
 	import Edit from '../../static/edit.svg?raw';
-	import { deleteReserve } from '../store/stores.ts';
+	import { deleteReserve, updateSeated } from '../store/stores.ts';
 	export let data: {
 		name: string;
 		phoneNumber: string;
@@ -22,12 +22,12 @@
 		deleteReserve(id);
 	};
 
-	const handleSeatedClick = (event: MouseEvent) => {
+	const handleSeatedClick = (event: MouseEvent, id: string) => {
 		event.preventDefault();
+		updateSeated(id);
 	};
 	let table: number[] = [];
 	data && data.selectTable.map((item) => table.push(item.table));
-	console.log(data.selectTable);
 </script>
 
 <li>
@@ -58,7 +58,9 @@
 				{@html Trash}
 			</Button>
 
-			<Button handleClick={handleSeatedClick} {customClass}>Seated</Button>
+			<Button handleClick={(event) => handleSeatedClick(event, data.id)} {customClass}
+				>Seated</Button
+			>
 		</div>
 	</a>
 </li>

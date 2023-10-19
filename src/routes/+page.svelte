@@ -7,16 +7,7 @@
 	let title = 'Reservation';
 	let route = '/edit';
 	let customClass = 'orange';
-	let data = {
-		name: 'David',
-		phoneNumber: '021-523-4521',
-		guests: 3,
-		selectTable: [{ table: 1, floor: 1 }],
-		memo: 'Birthday',
-		date: '2015-02-29',
-		id: '1'
-	};
-	console.log(reservation);
+	$: data = $reservation.filter((data) => data.seated === false);
 </script>
 
 <Header {title}>
@@ -27,8 +18,8 @@
 </Header>
 <div class="reservation-container">
 	<ul>
-		{#each $reservation as reservation, index (index)}
-			<ReservationCard data={reservation} />
+		{#each data as data, index (index)}
+			<ReservationCard {data} />
 		{/each}
 	</ul>
 </div>

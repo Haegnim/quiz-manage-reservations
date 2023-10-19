@@ -8,6 +8,7 @@ export interface ReservationCardProps {
 	memo?: string;
 	date: string;
 	id: string;
+	seated: boolean;
 }
 const initialReservations: ReservationCardProps[] = [
 	{
@@ -20,7 +21,8 @@ const initialReservations: ReservationCardProps[] = [
 		],
 		memo: 'Birthday',
 		date: '2015-02-29',
-		id: '1'
+		id: '1',
+		seated: false
 	},
 	{
 		name: '가나다',
@@ -29,7 +31,8 @@ const initialReservations: ReservationCardProps[] = [
 		selectTable: [{ table: 2, floor: 1 }],
 		memo: 'Birthday',
 		date: '2015-02-29',
-		id: '2'
+		id: '2',
+		seated: false
 	}
 ];
 const reservation = writable<ReservationCardProps[]>(initialReservations);
@@ -55,4 +58,12 @@ const updateReserve = (id: string, update: ReservationCardProps) => {
 	});
 };
 
-export { reservation, addReserve, deleteReserve, updateReserve };
+const updateSeated = (id: string) => {
+	console.log('어라');
+	reservation.update((reserves) =>
+		reserves.map((reserve) =>
+			reserve.id === id ? { ...reserve, seated: !reserve.seated } : reserve
+		)
+	);
+};
+export { reservation, addReserve, deleteReserve, updateReserve, updateSeated };
