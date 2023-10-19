@@ -4,7 +4,7 @@ export interface ReservationCardProps {
 	name: string;
 	phoneNumber: string;
 	guests: number;
-	selectTable?: { table: number; floor: number }[];
+	selectTable: { table: number; floor: number }[];
 	memo?: string;
 	date: string;
 	id: string;
@@ -14,7 +14,10 @@ const initialReservations: ReservationCardProps[] = [
 		name: '가나다',
 		phoneNumber: '021-523-4521',
 		guests: 3,
-		selectTable: [{ table: 1, floor: 1 }],
+		selectTable: [
+			{ table: 9, floor: 1 },
+			{ table: 5, floor: 1 }
+		],
 		memo: 'Birthday',
 		date: '2015-02-29',
 		id: '1'
@@ -23,7 +26,7 @@ const initialReservations: ReservationCardProps[] = [
 		name: '가나다',
 		phoneNumber: '021-523-4521',
 		guests: 3,
-		selectTable: [{ table: 1, floor: 1 }],
+		selectTable: [{ table: 2, floor: 1 }],
 		memo: 'Birthday',
 		date: '2015-02-29',
 		id: '2'

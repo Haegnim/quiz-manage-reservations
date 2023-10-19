@@ -7,11 +7,11 @@
 	import MinusIcon from '../../../../static/math-minus.svg?raw';
 	import SelectDate from '../../../components/selectDate.svelte';
 	import { reservation, updateReserve } from '../../../store/stores.ts';
-	let paramsId = window.location.pathname;
-	paramsId = paramsId.split('/')[2];
-	console.log(paramsId);
-	let data = $reservation.find((reserve) => reserve.id === paramsId);
-	console.log(data);
+	import { page } from '$app/stores';
+
+	let id = $page.params.id;
+	let data = $reservation.find((reserve) => reserve.id === id);
+
 	let handleClick = () => {};
 	let type: 'button' | 'submit' = 'submit';
 	let mathClass = 'flex-1';
@@ -19,7 +19,7 @@
 
 	let nameInputValue: string = data ? data.name : '';
 	let phoneInputValue: string = data ? data.phoneNumber : '';
-	let selectOption: { table: number; floor: number }[] | undefined = data ? data.selectTable : [];
+	let selectOption: { table: number; floor: number }[] = data ? data.selectTable : [];
 	let noteTextAreaValue: string | undefined = data ? data.memo : '';
 	let count = data ? data.guests : 0;
 	const MIN_GUESTS = 0;
@@ -46,15 +46,11 @@
 			date: '2015-02-29',
 			id: '1'
 		};
-
-		alert(nameInputValue + phoneInputValue + selectOption + noteTextAreaValue + count);
 		if (data) {
 			updateReserve(data.id, update);
 			window.history.back();
 		}
 	};
-
-	console.log(nameInputValue);
 </script>
 
 <form action="addReservation" on:submit={handleSubmit}>

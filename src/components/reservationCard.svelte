@@ -11,7 +11,7 @@
 		name: string;
 		phoneNumber: string;
 		guests: number;
-		selectTable?: { table: number; floor: number }[];
+		selectTable: { table: number; floor: number }[];
 		memo?: string;
 		date: string;
 		id: string;
@@ -25,6 +25,9 @@
 	const handleSeatedClick = (event: MouseEvent) => {
 		event.preventDefault();
 	};
+	let table: number[] = [];
+	data && data.selectTable.map((item) => table.push(item.table));
+	console.log(data.selectTable);
 </script>
 
 <li>
@@ -44,7 +47,7 @@
 
 		{#if data.selectTable}
 			<p class="c-gray font-16 mb-20">
-				Reserved Table <span class="font-20 c-black">{data.selectTable.join(',')}</span> · Floor 1
+				Reserved Table <span class="font-20 c-black">{table.join(', ')}</span> · Floor 1
 			</p>
 			<p class="row mb-20 flex-g-20">{data.memo} {@html Edit}</p>
 		{:else}
