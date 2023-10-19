@@ -6,6 +6,7 @@
 	import PlusIcon from '../../../static/math-plus.svg?raw';
 	import MinusIcon from '../../../static/math-minus.svg?raw';
 	import SelectDate from '../../components/selectDate.svelte';
+	import { reservation, addReserve } from '../../store/stores.ts';
 	let handleClick = () => {};
 	let type: 'button' | 'submit' = 'submit';
 	let mathClass = 'flex-1';
@@ -30,8 +31,21 @@
 
 	let handleSubmit = (event: SubmitEvent) => {
 		event.preventDefault();
+		let data = {
+			name: nameInputValue,
+			phoneNumber: phoneInputValue,
+			guests: count,
+			selectTable: selectOption,
+			memo: noteTextAreaValue,
+			date: '2015-02-29',
+			id: '1'
+		};
+
 		alert(nameInputValue + phoneInputValue + selectOption + noteTextAreaValue + count);
+		addReserve(data);
+		window.history.back();
 	};
+
 	console.log(nameInputValue);
 </script>
 

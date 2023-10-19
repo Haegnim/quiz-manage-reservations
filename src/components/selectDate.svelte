@@ -6,17 +6,17 @@
 	import Trash from '../../static/trash.svg?raw';
 	import ArrowDownIcon from '../../static/chevron-down.svg?raw';
 	import ArrowUpIcon from '../../static/chevron-up.svg?raw';
-	let handleClick = () => {};
+	export let dateData: string = '';
+	let isShow = false;
+	let handleShowClick = (event: MouseEvent) => {
+		isShow = !isShow;
+	};
+
 	const handleTrashClick = (event: MouseEvent) => {
 		event.preventDefault();
 		console.log('Trash button clicked');
+		isShow = !isShow;
 		// 여기에 Trash 버튼을 클릭했을 때 수행할 동작을 작성합니다.
-	};
-
-	const handleSeatedClick = (event: MouseEvent) => {
-		event.preventDefault();
-		console.log('Seated button clicked');
-		// 여기에 Seated 버튼을 클릭했을 때 수행할 동작을 작성합니다.
 	};
 
 	let hour: string = '00';
@@ -64,66 +64,90 @@
 	};
 	let month: string = 'May';
 	let day: string = '10';
+	let today = new Date();
+	let todayDate = today.getDate();
+	let todayMonth = today.getMonth() + 1;
+	console.log(todayDate);
+	console.log(todayMonth);
+	const handleSaveClick = (event: MouseEvent) => {
+		event.preventDefault();
+		isShow = !isShow;
+		dateData = `${month + ' ' + day} ${hour}:${minute} ${meridiem}`;
+	};
 </script>
 
-<Button {handleClick} customClass={'flex-1'}>{@html DateCheckIcon} Select Date</Button>
-<div class="bg-overlay">
-	<div class="modal">
-		<div class="input-box row">
-			<label for="time">
-				{@html Alarm}
-			</label>
-			<input id="time" class="dial-result" value={hour + ':' + minute + ' ' + meridiem} readonly />
-		</div>
-		<div class="input-box row">
-			<label for="date">
-				{@html Today}
-			</label>
-			<input id="date" class="dial-result" value={month + ' ' + day} readonly />
-		</div>
-		<div class="row dial-box">
-			<div class="dial">
-				<button
-					on:click={(event) => {
-						handleUpClick('hour', +1, hour, event);
-					}}>{@html ArrowUpIcon}</button
-				>
-				<input type="text" bind:value={hour} on:keydown={handleInputKeyDown} />
-				<button
-					on:click={(event) => {
-						handleUpClick('hour', -1, hour, event);
-					}}
-					type="button">{@html ArrowDownIcon}</button
-				>
+<Button handleClick={handleShowClick} customClass={'flex-1'}>
+	{@html DateCheckIcon}
+	{#if dateData === ''}
+		Select Date
+	{:else}
+		{dateData}
+	{/if}
+</Button>
+{#if isShow}
+	<div class="bg-overlay">
+		<div class="modal">
+			<div class="input-box row">
+				<label for="time">
+					{@html Alarm}
+				</label>
+				<input
+					id="time"
+					class="dial-result"
+					value={hour + ':' + minute + ' ' + meridiem}
+					readonly
+				/>
 			</div>
-			:
-			<div class="dial">
-				<button
-					on:click={(event) => {
-						handleUpClick('minute', +1, minute, event);
-					}}>{@html ArrowUpIcon}</button
-				>
-				<input type="text" bind:value={minute} />
-				<button
-					on:click={(event) => {
-						handleUpClick('minute', -1, minute, event);
-					}}>{@html ArrowDownIcon}</button
-				>
+			<div class="input-box row">
+				<label for="date">
+					{@html Today}
+				</label>
+				<input id="date" class="dial-result" value={month + ' ' + day} readonly />
 			</div>
-			<div class="dial ml-8">
-				<button>{@html ArrowUpIcon}</button>
-				<input type="text" value={meridiem} />
-				<button>{@html ArrowDownIcon}</button>
+			<div class="row dial-box">
+				<div class="dial">
+					<button
+						on:click={(event) => {
+							handleUpClick('hour', +1, hour, event);
+						}}>{@html ArrowUpIcon}</button
+					>
+					<input type="text" bind:value={hour} on:keydown={handleInputKeyDown} />
+					<button
+						on:click={(event) => {
+							handleUpClick('hour', -1, hour, event);
+						}}
+						type="button">{@html ArrowDownIcon}</button
+					>
+				</div>
+				:
+				<div class="dial">
+					<button
+						on:click={(event) => {
+							handleUpClick('minute', +1, minute, event);
+						}}>{@html ArrowUpIcon}</button
+					>
+					<input type="text" bind:value={minute} />
+					<button
+						on:click={(event) => {
+							handleUpClick('minute', -1, minute, event);
+						}}>{@html ArrowDownIcon}</button
+					>
+				</div>
+				<div class="dial ml-8">
+					<button>{@html ArrowUpIcon}</button>
+					<input type="text" value={meridiem} />
+					<button>{@html ArrowDownIcon}</button>
+				</div>
 			</div>
-		</div>
-		<div class="row">
-			<Button handleClick={handleTrashClick}>
-				{@html Trash}
-			</Button>
-			<Button handleClick={handleSeatedClick} customClass={'bg-orange flex-1'}>Save</Button>
+			<div class="row">
+				<Button handleClick={handleTrashClick}>
+					{@html Trash}
+				</Button>
+				<Button handleClick={handleSaveClick} customClass={'bg-orange flex-1'}>Save</Button>
+			</div>
 		</div>
 	</div>
-</div>
+{/if}
 
 <style>
 	.bg-overlay {

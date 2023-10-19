@@ -6,18 +6,20 @@
 	import Event from '../../static/event_available.svg?raw';
 	import Group from '../../static/group.svg?raw';
 	import Edit from '../../static/edit.svg?raw';
+	import { deleteReserve } from '../store/stores.ts';
 	export let data: {
 		name: string;
 		phoneNumber: string;
 		guests: number;
-		selectTable?: Array<number>;
+		selectTable?: { table: number; floor: number }[];
 		memo?: string;
 		date: string;
-		params: string;
+		id: string;
 	};
 	export let customClass = 'bg-orange';
-	const handleTrashClick = (event: MouseEvent) => {
+	const handleTrashClick = (event: MouseEvent, id: string) => {
 		event.preventDefault();
+		deleteReserve(id);
 	};
 
 	const handleSeatedClick = (event: MouseEvent) => {
@@ -26,7 +28,7 @@
 </script>
 
 <li>
-	<a href={`/edit/${data.params}`} class="card-box">
+	<a href={`/edit/${data.id}`} class="card-box">
 		<div class="row mb-20 flex-g-20">
 			<p class="bold">{data.name}</p>
 			<span class="phone">{@html Phone} {data.phoneNumber}</span>
@@ -49,7 +51,7 @@
 			<p>No Selected Table</p>
 		{/if}
 		<div class="row flex-g-20">
-			<Button handleClick={handleTrashClick}>
+			<Button handleClick={(event) => handleTrashClick(event, data.id)}>
 				{@html Trash}
 			</Button>
 
