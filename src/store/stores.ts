@@ -20,7 +20,7 @@ const initialReservations: ReservationCardProps[] = [
 			{ table: 5, floor: 1 }
 		],
 		memo: 'Birthday',
-		date: '2015-02-29',
+		date: 'Aug 20, 2:00 AM',
 		id: '1',
 		seated: false
 	},
@@ -30,7 +30,7 @@ const initialReservations: ReservationCardProps[] = [
 		guests: 3,
 		selectTable: [{ table: 2, floor: 1 }],
 		memo: 'Birthday',
-		date: '2015-02-29',
+		date: 'today, 3:00 AM',
 		id: '2',
 		seated: false
 	}

@@ -22,6 +22,7 @@
 	let selectOption: { table: number; floor: number }[] = data ? data.selectTable : [];
 	let noteTextAreaValue: string | undefined = data ? data.memo : '';
 	let count = data ? data.guests : 0;
+	let date = data ? data.date : '';
 	const MIN_GUESTS = 0;
 	const MAX_GUESTS = 8;
 	let handlePlusClick = () => {
@@ -37,16 +38,18 @@
 
 	let handleSubmit = (event: SubmitEvent) => {
 		event.preventDefault();
-		let update = {
-			name: nameInputValue,
-			phoneNumber: phoneInputValue,
-			guests: count,
-			selectTable: selectOption,
-			memo: noteTextAreaValue,
-			date: '2015-02-29',
-			id: '1'
-		};
 		if (data) {
+			let update = {
+				name: nameInputValue,
+				phoneNumber: phoneInputValue,
+				guests: count,
+				selectTable: selectOption,
+				memo: noteTextAreaValue,
+				date,
+				id,
+				seated: data?.seated
+			};
+			console.log(date);
 			updateReserve(data.id, update);
 			window.history.back();
 		}
@@ -57,7 +60,7 @@
 	<div class="row w-100 mb-70">
 		<Input name={'name'} bind:value={nameInputValue} />
 		<Input name={'phone'} bind:value={phoneInputValue} />
-		<SelectDate />
+		<SelectDate bind:dateData={date} />
 		<!-- <Button {handleClick} customClass={mathClass}>Select Date</Button> -->
 	</div>
 

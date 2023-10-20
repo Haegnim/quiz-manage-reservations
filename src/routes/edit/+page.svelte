@@ -38,7 +38,8 @@
 			selectTable: selectOption,
 			memo: noteTextAreaValue,
 			date: '2015-02-29',
-			id: '1'
+			id: '1',
+			seated: false
 		};
 
 		alert(nameInputValue + phoneInputValue + selectOption + noteTextAreaValue + count);

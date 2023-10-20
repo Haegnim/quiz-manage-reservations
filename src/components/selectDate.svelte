@@ -7,23 +7,59 @@
 	import ArrowDownIcon from '../../static/chevron-down.svg?raw';
 	import ArrowUpIcon from '../../static/chevron-up.svg?raw';
 	export let dateData: string = '';
-	let isShow = false;
+	let isShow = true;
+	let isdial = 'time';
 	let handleShowClick = (event: MouseEvent) => {
 		isShow = !isShow;
+	};
+	let handleDialClick = (event: MouseEvent, type: string) => {
+		isdial = type;
 	};
 
 	const handleTrashClick = (event: MouseEvent) => {
 		event.preventDefault();
-		console.log('Trash button clicked');
 		isShow = !isShow;
-		// 여기에 Trash 버튼을 클릭했을 때 수행할 동작을 작성합니다.
 	};
 
 	let hour: string = '00';
 	let minute: string = '00';
 	let meridiem: string = 'AM';
-	let time: string = hour + ':' + minute + ' ' + meridiem;
+	const MONTH: string[] = [
+		'Jan',
+		'Feb',
+		'Mar',
+		'Apr',
+		'May',
+		'Jun',
+		'Jul',
+		'Aug',
+		'Sep',
+		'Oct',
+		'Nov',
+		'Dec'
+	];
+	const monthName = (month: number) => {
+		return MONTH[month];
+	};
+	let month: string = monthName(0);
+	let day: string = '10';
+	let today = new Date();
+	let todayDate = today.getDate();
+	let todayMonth = today.getMonth();
 
+	let date = dateData.split(',');
+	if (date[0] === 'today') {
+		month = monthName(todayMonth);
+		day = todayDate.toString();
+	} else {
+		month = date[0].split(' ')[0];
+		day = date[0].split(' ')[1];
+	}
+	hour = date[1].split(':')[0];
+	minute = date[1].split(':')[1].split(' ')[0];
+	meridiem = date[1].split(':')[1].split(' ')[1];
+	console.log(date[0]);
+	console.log(date[1]);
 	const updateHourMinute = (props: string, count: number, max: number, min: number) => {
 		let num: number = Number(props) + count;
 		if (num < min) {
@@ -31,7 +67,6 @@
 		} else if (num > max) {
 			num = min;
 		}
-
 		const formattedNum = num < 10 ? '0' + num : num.toString();
 		return formattedNum;
 	};
@@ -46,14 +81,12 @@
 		minute = updateHourMinute(props, count, 59, 0);
 	};
 
-	const handleInputKeyDown = (event: KeyboardEvent) => {
-		if (event.key === 'Enter') {
-			event.preventDefault();
-			hour = updateHourMinute(hour, 0, 12, 1);
-		}
+	const meridiemCount = (event: MouseEvent) => {
+		event.preventDefault();
+		meridiem = meridiem === 'AM' ? 'PM' : 'AM';
 	};
 
-	const handleUpClick = (type: string, count: number, props: string, event: MouseEvent) => {
+	const handleTimeCountClick = (type: string, count: number, props: string, event: MouseEvent) => {
 		event.preventDefault();
 		console.log('handleUpClick');
 		if (type === 'hour') {
@@ -62,17 +95,61 @@
 			minuteCount(props, count);
 		}
 	};
-	let month: string = 'May';
-	let day: string = '10';
-	let today = new Date();
-	let todayDate = today.getDate();
-	let todayMonth = today.getMonth() + 1;
-	console.log(todayDate);
-	console.log(todayMonth);
+
+	const monthCount = (props: string, count: number) => {
+		const crrentMonth = MONTH.indexOf(props);
+
+		let num: number = crrentMonth + count;
+		if (num < 0) {
+			num = 11;
+		} else if (num > 11) {
+			num = 0;
+		}
+		console.log(props);
+		console.log(crrentMonth);
+		return monthName(num);
+	};
+	const monthMaxDay = (month: number) => {
+		switch (month) {
+			case 3:
+			case 5:
+			case 8:
+			case 10:
+				return 30;
+			case 1:
+				return 28;
+			default:
+				return 31;
+		}
+	};
+	const dayCount = (props: string, count: number) => {
+		let num: number = Number(props) + count;
+		const crrentMonth = MONTH.indexOf(month);
+		const maxDay = monthMaxDay(crrentMonth);
+		if (num < 1) {
+			num = maxDay;
+		} else if (num > maxDay) {
+			num = 1;
+		}
+		return num.toString();
+	};
+	const handleDateCountClick = (type: string, count: number, props: string, event: MouseEvent) => {
+		event.preventDefault();
+		if (type === 'month') {
+			month = monthCount(props, count);
+		} else if (type === 'day') {
+			day = dayCount(props, count);
+		}
+	};
+
 	const handleSaveClick = (event: MouseEvent) => {
 		event.preventDefault();
 		isShow = !isShow;
-		dateData = `${month + ' ' + day} ${hour}:${minute} ${meridiem}`;
+		if (month === monthName(todayMonth) && day === todayDate.toString()) {
+			dateData = `today, ${hour}:${minute} ${meridiem}`;
+		} else {
+			dateData = `${month + ' ' + day}, ${hour}:${minute} ${meridiem}`;
+		}
 	};
 </script>
 
@@ -95,6 +172,7 @@
 					id="time"
 					class="dial-result"
 					value={hour + ':' + minute + ' ' + meridiem}
+					on:click={(event) => handleDialClick(event, 'time')}
 					readonly
 				/>
 			</div>
@@ -102,43 +180,81 @@
 				<label for="date">
 					{@html Today}
 				</label>
-				<input id="date" class="dial-result" value={month + ' ' + day} readonly />
+				<input
+					id="date"
+					class="dial-result"
+					value={month + ' ' + day}
+					on:click={(event) => handleDialClick(event, 'date')}
+					readonly
+				/>
 			</div>
-			<div class="row dial-box">
-				<div class="dial">
-					<button
-						on:click={(event) => {
-							handleUpClick('hour', +1, hour, event);
-						}}>{@html ArrowUpIcon}</button
-					>
-					<input type="text" bind:value={hour} on:keydown={handleInputKeyDown} />
-					<button
-						on:click={(event) => {
-							handleUpClick('hour', -1, hour, event);
-						}}
-						type="button">{@html ArrowDownIcon}</button
-					>
+			{#if isdial === 'time'}
+				<div class="row dial-box">
+					<div class="dial">
+						<button
+							on:click={(event) => {
+								handleTimeCountClick('hour', +1, hour, event);
+							}}>{@html ArrowUpIcon}</button
+						>
+						<input type="text" bind:value={hour} />
+						<button
+							on:click={(event) => {
+								handleTimeCountClick('hour', -1, hour, event);
+							}}
+							type="button">{@html ArrowDownIcon}</button
+						>
+					</div>
+					:
+					<div class="dial">
+						<button
+							on:click={(event) => {
+								handleTimeCountClick('minute', +1, minute, event);
+							}}>{@html ArrowUpIcon}</button
+						>
+						<input type="text" bind:value={minute} />
+						<button
+							on:click={(event) => {
+								handleTimeCountClick('minute', -1, minute, event);
+							}}>{@html ArrowDownIcon}</button
+						>
+					</div>
+					<div class="dial ml-8">
+						<button on:click={(event) => meridiemCount(event)}>{@html ArrowUpIcon}</button>
+						<input type="text" value={meridiem} />
+						<button on:click={(event) => meridiemCount(event)}>{@html ArrowDownIcon}</button>
+					</div>
 				</div>
-				:
-				<div class="dial">
-					<button
-						on:click={(event) => {
-							handleUpClick('minute', +1, minute, event);
-						}}>{@html ArrowUpIcon}</button
-					>
-					<input type="text" bind:value={minute} />
-					<button
-						on:click={(event) => {
-							handleUpClick('minute', -1, minute, event);
-						}}>{@html ArrowDownIcon}</button
-					>
+			{:else}
+				<div class="row dial-box">
+					<div class="dial">
+						<button
+							on:click={(event) => {
+								handleDateCountClick('month', +1, month, event);
+							}}>{@html ArrowUpIcon}</button
+						>
+						<input type="text" bind:value={month} />
+						<button
+							on:click={(event) => {
+								handleDateCountClick('month', -1, month, event);
+							}}
+							type="button">{@html ArrowDownIcon}</button
+						>
+					</div>
+					<div class="dial">
+						<button
+							on:click={(event) => {
+								handleDateCountClick('day', +1, day, event);
+							}}>{@html ArrowUpIcon}</button
+						>
+						<input type="text" bind:value={day} />
+						<button
+							on:click={(event) => {
+								handleDateCountClick('day', -1, day, event);
+							}}>{@html ArrowDownIcon}</button
+						>
+					</div>
 				</div>
-				<div class="dial ml-8">
-					<button>{@html ArrowUpIcon}</button>
-					<input type="text" value={meridiem} />
-					<button>{@html ArrowDownIcon}</button>
-				</div>
-			</div>
+			{/if}
 			<div class="row">
 				<Button handleClick={handleTrashClick}>
 					{@html Trash}
