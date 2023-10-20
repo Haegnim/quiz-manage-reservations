@@ -259,7 +259,8 @@
 				<Button handleClick={handleTrashClick}>
 					{@html Trash}
 				</Button>
-				<Button handleClick={handleSaveClick} customClass={'bg-orange flex-1'}>Save</Button>
+				<Button handleClick={handleSaveClick} customClass={'bg-gradient-orange flex-1'}>Save</Button
+				>
 			</div>
 		</div>
 	</div>

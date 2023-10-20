@@ -6,18 +6,17 @@
 	import { reservation, addReserve } from '../store/stores.ts';
 	let title = 'Reservation';
 	let route = '/edit';
-	let customClass = 'orange';
 	$: data = $reservation.filter((data) => data.seated === false);
 </script>
 
 <Header {title}>
-	<Link {route} {customClass}>
+	<Link {route} customClass={'text-orange'}>
 		{@html PlusIcon}
 		new reservation
 	</Link>
 </Header>
-<div class="reservation-container">
-	<ul>
+<div class="bg-gray-f5 p-5 h-screen-90 overflow-y-auto scrollbar-hide">
+	<ul class="grid grid-cols-3 place-items-center justify-center gap-5">
 		{#each data as data, index (index)}
 			<ReservationCard {data} />
 		{/each}
@@ -25,20 +24,10 @@
 </div>
 
 <style>
-	.reservation-container {
-		background-color: #f5f5f4;
-		padding: 20px;
+	.h-screen-90 {
 		height: calc(100% - 90px);
-		overflow-y: auto;
 	}
-	.reservation-container::-webkit-scrollbar {
+	.scrollbar-hide::-webkit-scrollbar {
 		display: none;
-	}
-	ul {
-		display: grid;
-		grid-template-columns: repeat(3, 1fr);
-		place-items: center;
-		justify-content: center;
-		gap: 20px;
 	}
 </style>

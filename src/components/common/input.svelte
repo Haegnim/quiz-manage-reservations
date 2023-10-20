@@ -18,9 +18,12 @@
 	}
 </script>
 
-<div class="input-box">
-	<label for={`${name}InputField`} class:active={isActive}
-		>{name}<span class="essential">*</span></label
+<div class="relative flex-grow">
+	<label
+		for={`${name}InputField`}
+		class:active={isActive}
+		class="transform -translate-y-[50%] absolute top-1/2 left-4 px-2 py-1 bg-white rounded-full transition-all duration-300 ease-in-out text-gray-w200"
+		>{name}<span class="text-orange ml-2">*</span></label
 	>
 	<input
 		type="text"
@@ -29,39 +32,12 @@
 		on:input={updateIsActive}
 		on:focus={() => (isActive = true)}
 		on:blur={blurIsActive}
+		class="w-full p-7 border border-gray-w300 rounded-lg focus:outline-none"
 	/>
 </div>
 
 <style>
-	.input-box {
-		position: relative;
-		flex: 1;
-	}
-	.essential {
-		color: #ec551f;
-		margin-left: 8px;
-	}
-	label {
-		position: absolute;
-		top: 50%;
-		left: 16px;
-		transform: translate(0, -50%);
-		color: #ada7a4;
-		padding: 8px;
-		background-color: #fff;
-		border-radius: 20px;
-		transition: all 0.3s ease-in-out;
-	}
 	.active {
 		transform: translate(0, -160%);
-	}
-	input {
-		width: 100%;
-		padding: 28px 20px;
-		border-radius: 8px;
-		border: #dbd9d7 1px solid;
-	}
-	input:focus {
-		outline: none;
 	}
 </style>

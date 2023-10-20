@@ -16,7 +16,7 @@
 		date: string;
 		id: string;
 	};
-	export let customClass = 'bg-orange';
+
 	const handleTrashClick = (event: MouseEvent, id: string) => {
 		event.preventDefault();
 		deleteReserve(id);
@@ -60,8 +60,9 @@
 				{@html Trash}
 			</Button>
 
-			<Button handleClick={(event) => handleSeatedClick(event, data.id)} {customClass}
-				>Seated</Button
+			<Button
+				handleClick={(event) => handleSeatedClick(event, data.id)}
+				customClass={'bg-gradient-orange'}>Seated</Button
 			>
 		</div>
 	</a>

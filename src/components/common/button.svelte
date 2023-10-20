@@ -28,7 +28,7 @@
 	.orange {
 		color: #ec551f;
 	}
-	.bg-orange {
+	.bg-gradient-orange {
 		color: #fff;
 		background: linear-gradient(180deg, #ef7144 0%, #df4c18 70%, #d94714 100%);
 		flex: 7;

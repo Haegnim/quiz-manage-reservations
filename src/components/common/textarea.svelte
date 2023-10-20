@@ -8,7 +8,7 @@
 <style>
 	textarea {
 		width: 100%;
-		height: 260px;
+		height: 240px;
 		padding: 28px 20px;
 		border-radius: 8px;
 		border: #dbd9d7 1px solid;

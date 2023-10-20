@@ -91,67 +91,54 @@
 	};
 </script>
 
-<form action="addReservation" on:submit={handleSubmit}>
-	<div class="row w-100 mb-70">
-		<Input name={'name'} bind:value={nameInputValue} blurEvent={handleSubmit} />
-		<Input
-			name={'phone'}
-			bind:value={phoneInputValue}
-			inputEvent={formatPhoneNumber}
-			blurEvent={handleSubmit}
-		/>
-		<SelectDate bind:dateData={date} />
-	</div>
-
-	<div class="row w-100 mb-70 relative">
-		<div class="row">
-			Guests
-			<Button handleClick={handleMinusClick} customClass={'flex-1'}>
-				{@html MinusIcon}
-			</Button>
-			<span class="count">
-				{count}
-			</span>
-			<Button handleClick={handlePlusClick} customClass={'flex-1'}>
-				{@html PlusIcon}
-			</Button>
+<form
+	action="addReservation"
+	on:submit={handleSubmit}
+	class="h-full flex flex-col justify-between gap-10 py-5"
+>
+	<div class="h-fill flex flex-col justify-between gap-12">
+		<div class="flex justify-between items-center gap-5 w-full px-5">
+			<Input name={'name'} bind:value={nameInputValue} blurEvent={handleSubmit} />
+			<Input
+				name={'phone'}
+				bind:value={phoneInputValue}
+				inputEvent={formatPhoneNumber}
+				blurEvent={handleSubmit}
+			/>
+			<SelectDate bind:dateData={date} />
 		</div>
-		<Selecter bind:selectOption submitEvent={handleSubmit}>Select Table</Selecter>
-	</div>
-	<div class="row w-100 mb-70">
-		<Textarea bind:value={noteTextAreaValue} blurEvent={handleSubmit} />
+
+		<div class="flex justify-between items-start gap-5 w-full px-5">
+			<div class="flex justify-between items-center gap-5">
+				Guests
+				<Button handleClick={handleMinusClick} customClass={'flex-1'}>
+					{@html MinusIcon}
+				</Button>
+				<span class="w-4 text-center">
+					{count}
+				</span>
+				<Button handleClick={handlePlusClick} customClass={'flex-1'}>
+					{@html PlusIcon}
+				</Button>
+			</div>
+			<Selecter bind:selectOption submitEvent={handleSubmit}>Select Table</Selecter>
+		</div>
+		<div class="flex justify-between items-center gap-5 w-full px-5">
+			<Textarea bind:value={noteTextAreaValue} blurEvent={handleSubmit} />
+		</div>
 	</div>
 
-	<div class="row w-100 mb-70">
+	<div class="flex justify-between items-center gap-5 w-full px-5">
 		<Button handleClick={(event) => handleTrashClick(event, id)}>
 			{@html Trash}
 		</Button>
 
-		<Button handleClick={(event) => handleSeatedClick(event, id)} customClass={'flex-1 bg-orange'}
-			>Seated</Button
+		<Button
+			handleClick={(event) => handleSeatedClick(event, id)}
+			customClass={'flex-1 bg-gradient-orange'}>Seated</Button
 		>
 	</div>
 </form>
 
 <style>
-	.w-100 {
-		width: 100%;
-	}
-	.row {
-		padding: 0 20px;
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-		gap: 20px;
-	}
-	.mb-70 {
-		margin-bottom: 70px;
-	}
-	.count {
-		width: 15px;
-		text-align: center;
-	}
-	.relative {
-		position: relative;
-	}
 </style>

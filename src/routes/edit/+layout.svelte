@@ -14,12 +14,12 @@
 		{@html BackIcon}
 	</Button>
 </Header>
-<div class="container">
+<div class="h-100">
 	<slot />
 </div>
 
 <style>
-	.container {
-		margin-top: 20px;
+	.h-100 {
+		height: calc(96vh - 100px);
 	}
 </style>

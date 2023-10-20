@@ -33,7 +33,7 @@
 	}
 </script>
 
-<div class="select-box">
+<div class="w-1/2 relative">
 	<button on:click={updateIsActive} class="selector" class:active={isActive}>
 		<span class:active={isList} class="select-name">
 			<slot />
@@ -82,11 +82,8 @@
 
 <style>
 	.select-box {
-		width: 50%;
-		position: absolute;
-		top: 0;
-		right: 20px;
-		/* max-height: 65px; */
+		width: 55%;
+		position: relative;
 	}
 	.select-name {
 		padding: 4px 8px;
@@ -114,7 +111,7 @@
 	}
 	.selector {
 		width: 100%;
-		min-height: 78px;
+		min-height: 82px;
 		padding: 20px 36px 20px 26px;
 		display: flex;
 		justify-content: space-between;
@@ -130,7 +127,6 @@
 	}
 	.select-list {
 		width: 100%;
-		/* height: 100px; */
 		background-color: #fff;
 		position: absolute;
 		padding: 16px;
@@ -153,7 +149,7 @@
 		display: inline-block;
 	}
 	.selected-list {
-		width: 100%;
+		width: 90%;
 		display: none;
 	}
 	.selected-list.active {
