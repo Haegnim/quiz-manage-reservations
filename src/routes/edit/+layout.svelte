@@ -14,8 +14,12 @@
 		{@html BackIcon}
 	</Button>
 </Header>
-
-<slot />
+<div class="container">
+	<slot />
+</div>
 
 <style>
+	.container {
+		margin-top: 20px;
+	}
 </style>

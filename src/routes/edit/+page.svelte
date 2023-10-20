@@ -9,7 +9,7 @@
 	import { reservation, addReserve } from '../../store/stores.ts';
 	import { goto } from '$app/navigation';
 	import { v4 as uuidv4 } from 'uuid';
-	// let handleClick = () => {};
+
 	let type: 'button' | 'submit' = 'submit';
 	let mathClass = 'flex-1';
 	let customClass = 'flex-1 bg-orange';
@@ -32,8 +32,31 @@
 		}
 	};
 	const index = uuidv4();
+	const formatPhoneNumber = (event: Event) => {
+		const target = event.target as HTMLInputElement;
+		let value = target.value.replace(/\D/g, '');
+		if (value.length > 11) {
+			value = value.slice(0, 11);
+		}
+		if (value.length > 7) {
+			phoneInputValue = value.replace(/(\d{3})(\d{4})(\d+)/, '$1-$2-$3');
+		} else if (value.length > 3) {
+			phoneInputValue = value.replace(/(\d{3})(\d+)/, '$1-$2');
+		} else {
+			phoneInputValue = value;
+		}
+	};
 	let handleSubmit = async (event: SubmitEvent) => {
 		event.preventDefault();
+		if (nameInputValue === '') {
+			return alert('이름을 입력해주세요');
+		} else if (phoneInputValue === '') {
+			return alert('전화번호를 입력해주세요');
+		} else if (count === 0) {
+			return alert('인원수를 입력해주세요');
+		} else if (date === '') {
+			return alert('예약 날짜를 입력해주세요');
+		}
 		let data = {
 			name: nameInputValue,
 			phoneNumber: phoneInputValue,
@@ -54,12 +77,12 @@
 <form action="addReservation" on:submit={handleSubmit}>
 	<div class="row w-100 mb-70">
 		<Input name={'name'} bind:value={nameInputValue} />
-		<Input name={'phone'} bind:value={phoneInputValue} />
+		<Input name={'phone'} bind:value={phoneInputValue} inputEvent={formatPhoneNumber} />
 		<SelectDate bind:dateData={date} />
 		<!-- <Button {handleClick} customClass={mathClass}>Select Date</Button> -->
 	</div>
 
-	<div class="row w-100 mb-70">
+	<div class="row w-100 mb-70 relative">
 		<div class="row">
 			Guests
 			<Button handleClick={handleMinusClick} customClass={mathClass}>
@@ -100,5 +123,8 @@
 	.count {
 		width: 15px;
 		text-align: center;
+	}
+	.relative {
+		position: relative;
 	}
 </style>

@@ -1,12 +1,20 @@
 <script lang="ts">
 	// export let buttonContent: string;
 	export let name: string = 'example';
-	export let value: string = '';
+	export let value: string | number = '';
+	export let inputEvent: (event: Event) => void = () => {};
+	export let blurEvent: () => void = () => {};
 	let isActive: boolean = value ? true : false;
 	// let inputElement: HTMLInputElement | undefined;
 	function updateIsActive(event: Event) {
 		const target = event.target as HTMLInputElement;
 		isActive = !!target.value;
+		inputEvent(event);
+	}
+	function blurIsActive(event: Event) {
+		const target = event.target as HTMLInputElement;
+		isActive = !!target.value;
+		blurEvent();
 	}
 </script>
 
@@ -20,7 +28,7 @@
 		bind:value
 		on:input={updateIsActive}
 		on:focus={() => (isActive = true)}
-		on:blur={updateIsActive}
+		on:blur={blurIsActive}
 	/>
 </div>
 
@@ -45,7 +53,7 @@
 		transition: all 0.3s ease-in-out;
 	}
 	.active {
-		transform: translate(0, -140%);
+		transform: translate(0, -160%);
 	}
 	input {
 		width: 100%;

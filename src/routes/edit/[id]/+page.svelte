@@ -27,16 +27,7 @@
 	let date = data ? data.date : '';
 	const MIN_GUESTS = 0;
 	const MAX_GUESTS = 8;
-	let handlePlusClick = () => {
-		if (MAX_GUESTS > count) {
-			count += 1;
-		}
-	};
-	let handleMinusClick = () => {
-		if (MIN_GUESTS < count) {
-			count -= 1;
-		}
-	};
+
 	const handleTrashClick = async (event: MouseEvent, id: string) => {
 		event.preventDefault();
 		deleteReserve(id);
@@ -48,8 +39,30 @@
 		updateSeated(id);
 		await goto('/');
 	};
-	let handleSubmit = async (event: SubmitEvent) => {
-		event.preventDefault();
+	const formatPhoneNumber = (event: Event) => {
+		const target = event.target as HTMLInputElement;
+		let value = target.value.replace(/\D/g, '');
+		if (value.length > 11) {
+			value = value.slice(0, 11);
+		}
+		if (value.length > 7) {
+			phoneInputValue = value.replace(/(\d{3})(\d{4})(\d+)/, '$1-$2-$3');
+		} else if (value.length > 3) {
+			phoneInputValue = value.replace(/(\d{3})(\d+)/, '$1-$2');
+		} else {
+			phoneInputValue = value;
+		}
+	};
+	let handleSubmit = async () => {
+		if (nameInputValue === '') {
+			return alert('이름을 입력해주세요');
+		} else if (phoneInputValue === '') {
+			return alert('전화번호를 입력해주세요');
+		} else if (count === 0) {
+			return alert('인원수를 입력해주세요');
+		} else if (date === '') {
+			return alert('예약 날짜를 입력해주세요');
+		}
 		if (data) {
 			let update = {
 				name: nameInputValue,
@@ -62,20 +75,35 @@
 				seated: data?.seated
 			};
 			updateReserve(data.id, update);
-			await goto('/');
 		}
+	};
+	let handlePlusClick = () => {
+		if (MAX_GUESTS > count) {
+			count += 1;
+		}
+		handleSubmit();
+	};
+	let handleMinusClick = () => {
+		if (MIN_GUESTS < count) {
+			count -= 1;
+		}
+		handleSubmit();
 	};
 </script>
 
 <form action="addReservation" on:submit={handleSubmit}>
 	<div class="row w-100 mb-70">
-		<Input name={'name'} bind:value={nameInputValue} />
-		<Input name={'phone'} bind:value={phoneInputValue} />
+		<Input name={'name'} bind:value={nameInputValue} blurEvent={handleSubmit} />
+		<Input
+			name={'phone'}
+			bind:value={phoneInputValue}
+			inputEvent={formatPhoneNumber}
+			blurEvent={handleSubmit}
+		/>
 		<SelectDate bind:dateData={date} />
-		<!-- <Button {handleClick} customClass={mathClass}>Select Date</Button> -->
 	</div>
 
-	<div class="row w-100 mb-70">
+	<div class="row w-100 mb-70 relative">
 		<div class="row">
 			Guests
 			<Button handleClick={handleMinusClick} customClass={'flex-1'}>
@@ -88,10 +116,10 @@
 				{@html PlusIcon}
 			</Button>
 		</div>
-		<Selecter bind:selectOption>Select Table</Selecter>
+		<Selecter bind:selectOption submitEvent={handleSubmit}>Select Table</Selecter>
 	</div>
 	<div class="row w-100 mb-70">
-		<Textarea bind:value={noteTextAreaValue} />
+		<Textarea bind:value={noteTextAreaValue} blurEvent={handleSubmit} />
 	</div>
 
 	<div class="row w-100 mb-70">
@@ -122,5 +150,8 @@
 	.count {
 		width: 15px;
 		text-align: center;
+	}
+	.relative {
+		position: relative;
 	}
 </style>

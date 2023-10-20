@@ -29,10 +29,16 @@
 		background-color: #f5f5f4;
 		padding: 20px;
 		height: calc(100% - 90px);
+		overflow-y: auto;
+	}
+	.reservation-container::-webkit-scrollbar {
+		display: none;
 	}
 	ul {
-		display: flex;
-		flex-wrap: wrap;
+		display: grid;
+		grid-template-columns: repeat(3, 1fr);
+		place-items: center;
+		justify-content: center;
 		gap: 20px;
 	}
 </style>

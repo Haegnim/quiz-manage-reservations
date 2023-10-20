@@ -32,27 +32,29 @@
 
 <li>
 	<a href={`/edit/${data.id}`} class="card-box">
-		<div class="row mb-20 flex-g-20">
-			<p class="bold">{data.name}</p>
-			<span class="phone">{@html Phone} {data.phoneNumber}</span>
-		</div>
-		<div class="row mb-20">
-			{@html Event}
-			<p class="ml-8">{data.date}</p>
-		</div>
-		<div class="row mb-20">
-			{@html Group}
-			<p class="ml-8">{data.guests}</p>
-		</div>
+		<div class="info-box">
+			<div class="row mb-20 flex-g-20">
+				<p class="bold">{data.name}</p>
+				<span class="phone">{@html Phone} {data.phoneNumber}</span>
+			</div>
+			<div class="row mb-20">
+				{@html Event}
+				<p class="ml-8">{data.date}</p>
+			</div>
+			<div class="row mb-20">
+				{@html Group}
+				<p class="ml-8">{data.guests}</p>
+			</div>
 
-		{#if data.selectTable}
-			<p class="c-gray font-16 mb-20">
-				Reserved Table <span class="font-20 c-black">{table.join(', ')}</span> · Floor 1
-			</p>
-			<p class="row mb-20 flex-g-20">{data.memo} {@html Edit}</p>
-		{:else}
-			<p>No Selected Table</p>
-		{/if}
+			{#if data.selectTable.length !== 0}
+				<p class="c-gray font-16 mb-20">
+					Reserved Table <span class="font-20 c-black">{table.join(', ')}</span> · Floor 1
+				</p>
+				<p class="row mb-20 flex-g-20">{data.memo} {@html Edit}</p>
+			{:else}
+				<p class="no-select">No Selected Table</p>
+			{/if}
+		</div>
 		<div class="row flex-g-20">
 			<Button handleClick={(event) => handleTrashClick(event, data.id)}>
 				{@html Trash}
@@ -66,16 +68,24 @@
 </li>
 
 <style>
+	li {
+		width: 100%;
+	}
 	.card-box {
-		display: block;
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
 		padding: 20px;
-		width: 350px;
-		/* height: 290px; */
+		height: 400px;
 		background-color: #fff;
 		box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.2);
 		border-radius: 8px;
 		font-size: 20px;
 		line-height: 20px;
+	}
+	.no-select {
+		font-style: italic;
+		color: #999;
 	}
 	.row {
 		display: flex;

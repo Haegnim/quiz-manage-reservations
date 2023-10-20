@@ -1,8 +1,9 @@
 <script lang="ts">
 	export let value: string = '';
+	export let blurEvent: () => void = () => {};
 </script>
 
-<textarea bind:value placeholder="Add Note..." />
+<textarea bind:value placeholder="Add Note..." on:blur={blurEvent} />
 
 <style>
 	textarea {

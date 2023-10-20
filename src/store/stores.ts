@@ -33,6 +33,46 @@ const initialReservations: ReservationCardProps[] = [
 		date: 'today, 3:00 AM',
 		id: '2',
 		seated: false
+	},
+	{
+		name: '가나다',
+		phoneNumber: '021-523-4521',
+		guests: 3,
+		selectTable: [{ table: 2, floor: 1 }],
+		memo: 'Birthday',
+		date: 'today, 3:00 AM',
+		id: '2',
+		seated: false
+	},
+	{
+		name: '가나다',
+		phoneNumber: '021-523-4521',
+		guests: 3,
+		selectTable: [{ table: 2, floor: 1 }],
+		memo: 'Birthday',
+		date: 'today, 3:00 AM',
+		id: '2',
+		seated: false
+	},
+	{
+		name: '가나다',
+		phoneNumber: '021-523-4521',
+		guests: 3,
+		selectTable: [{ table: 2, floor: 1 }],
+		memo: 'Birthday',
+		date: 'today, 3:00 AM',
+		id: '2',
+		seated: false
+	},
+	{
+		name: '가나다',
+		phoneNumber: '021-523-4521',
+		guests: 3,
+		selectTable: [{ table: 2, floor: 1 }],
+		memo: 'Birthday',
+		date: 'today, 3:00 AM',
+		id: '2',
+		seated: false
 	}
 ];
 const reservation = writable<ReservationCardProps[]>(initialReservations);

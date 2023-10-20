@@ -1,10 +1,8 @@
 <script lang="ts">
 	import SelectIcon from '../../../static/arrow_drop_down.svg?raw';
-	import XmarkIcon from '../../../static/close.svg?raw';
-
-	let isActive: boolean | undefined = false;
-	let spanElement: HTMLSpanElement | undefined;
 	export let selectOption: { table: number; floor: number }[] = [];
+	export let submitEvent: () => void = () => {};
+	let isActive: boolean | undefined = false;
 	let isList: boolean = selectOption ? true : false;
 	let optionList = [
 		{ table: 1, floor: 1 },
@@ -24,12 +22,14 @@
 		if (!isOption) {
 			selectOption = [...selectOption, optionList[index]];
 		}
+		submitEvent();
 	}
 
 	function handleClickRemove(index: number, event: MouseEvent) {
 		event.preventDefault();
 		selectOption = selectOption.filter((option) => option !== selectOption[index]);
 		console.log(selectOption);
+		submitEvent();
 	}
 </script>
 
@@ -82,9 +82,10 @@
 
 <style>
 	.select-box {
-		width: 60%;
-		position: relative;
-
+		width: 50%;
+		position: absolute;
+		top: 0;
+		right: 20px;
 		/* max-height: 65px; */
 	}
 	.select-name {
@@ -98,7 +99,8 @@
 		transform: translate(0, -50%);
 	}
 	.select-name.active {
-		transform: translate(0, -170%);
+		top: -10px;
+		transform: translate(0, 0);
 	}
 	.select-icon {
 		position: absolute;
@@ -112,7 +114,7 @@
 	}
 	.selector {
 		width: 100%;
-		height: 65px;
+		min-height: 78px;
 		padding: 20px 36px 20px 26px;
 		display: flex;
 		justify-content: space-between;
