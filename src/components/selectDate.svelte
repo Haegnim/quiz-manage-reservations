@@ -7,7 +7,7 @@
 	import ArrowDownIcon from '../../static/chevron-down.svg?raw';
 	import ArrowUpIcon from '../../static/chevron-up.svg?raw';
 	export let dateData: string = '';
-	let isShow = true;
+	let isShow = false;
 	let isdial = 'time';
 	let handleShowClick = (event: MouseEvent) => {
 		isShow = !isShow;
@@ -46,20 +46,20 @@
 	let today = new Date();
 	let todayDate = today.getDate();
 	let todayMonth = today.getMonth();
-
-	let date = dateData.split(',');
-	if (date[0] === 'today') {
-		month = monthName(todayMonth);
-		day = todayDate.toString();
-	} else {
-		month = date[0].split(' ')[0];
-		day = date[0].split(' ')[1];
+	if (dateData !== '') {
+		console.log(dateData);
+		let date = dateData.split(',');
+		if (date[0] === 'today') {
+			month = monthName(todayMonth);
+			day = todayDate.toString();
+		} else {
+			month = date[0].split(' ')[0];
+			day = date[0].split(' ')[1];
+		}
+		hour = date[1].split(':')[0];
+		minute = date[1].split(':')[1].split(' ')[0];
+		meridiem = date[1].split(':')[1].split(' ')[1];
 	}
-	hour = date[1].split(':')[0];
-	minute = date[1].split(':')[1].split(' ')[0];
-	meridiem = date[1].split(':')[1].split(' ')[1];
-	console.log(date[0]);
-	console.log(date[1]);
 	const updateHourMinute = (props: string, count: number, max: number, min: number) => {
 		let num: number = Number(props) + count;
 		if (num < min) {

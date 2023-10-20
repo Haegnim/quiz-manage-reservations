@@ -7,7 +7,9 @@
 	import MinusIcon from '../../../static/math-minus.svg?raw';
 	import SelectDate from '../../components/selectDate.svelte';
 	import { reservation, addReserve } from '../../store/stores.ts';
-	let handleClick = () => {};
+	import { goto } from '$app/navigation';
+	import { v4 as uuidv4 } from 'uuid';
+	// let handleClick = () => {};
 	let type: 'button' | 'submit' = 'submit';
 	let mathClass = 'flex-1';
 	let customClass = 'flex-1 bg-orange';
@@ -16,6 +18,7 @@
 	let selectOption: { table: number; floor: number }[] = [];
 	let noteTextAreaValue: string = '';
 	let count = 0;
+	let date: string = '';
 	const MIN_GUESTS = 0;
 	const MAX_GUESTS = 8;
 	let handlePlusClick = () => {
@@ -28,8 +31,8 @@
 			count -= 1;
 		}
 	};
-
-	let handleSubmit = (event: SubmitEvent) => {
+	const index = uuidv4();
+	let handleSubmit = async (event: SubmitEvent) => {
 		event.preventDefault();
 		let data = {
 			name: nameInputValue,
@@ -37,14 +40,12 @@
 			guests: count,
 			selectTable: selectOption,
 			memo: noteTextAreaValue,
-			date: '2015-02-29',
-			id: '1',
+			date: date,
+			id: index,
 			seated: false
 		};
-
-		alert(nameInputValue + phoneInputValue + selectOption + noteTextAreaValue + count);
 		addReserve(data);
-		window.history.back();
+		await goto('/');
 	};
 
 	console.log(nameInputValue);
@@ -54,7 +55,7 @@
 	<div class="row w-100 mb-70">
 		<Input name={'name'} bind:value={nameInputValue} />
 		<Input name={'phone'} bind:value={phoneInputValue} />
-		<SelectDate />
+		<SelectDate bind:dateData={date} />
 		<!-- <Button {handleClick} customClass={mathClass}>Select Date</Button> -->
 	</div>
 
@@ -78,7 +79,7 @@
 	</div>
 
 	<div class="row w-100 mb-70">
-		<Button {handleClick} {customClass} {type}>Save</Button>
+		<Button {customClass} {type}>Save</Button>
 	</div>
 </form>
 

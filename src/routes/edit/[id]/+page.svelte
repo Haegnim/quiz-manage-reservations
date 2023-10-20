@@ -6,16 +6,18 @@
 	import PlusIcon from '../../../../static/math-plus.svg?raw';
 	import MinusIcon from '../../../../static/math-minus.svg?raw';
 	import SelectDate from '../../../components/selectDate.svelte';
-	import { reservation, updateReserve } from '../../../store/stores.ts';
+	import Trash from '../../../../static/trash.svg?raw';
+	import {
+		deleteReserve,
+		reservation,
+		updateReserve,
+		updateSeated
+	} from '../../../store/stores.ts';
 	import { page } from '$app/stores';
+	import { goto } from '$app/navigation';
 
 	let id = $page.params.id;
 	let data = $reservation.find((reserve) => reserve.id === id);
-
-	let handleClick = () => {};
-	let type: 'button' | 'submit' = 'submit';
-	let mathClass = 'flex-1';
-	let customClass = 'flex-1 bg-orange';
 
 	let nameInputValue: string = data ? data.name : '';
 	let phoneInputValue: string = data ? data.phoneNumber : '';
@@ -35,8 +37,18 @@
 			count -= 1;
 		}
 	};
+	const handleTrashClick = async (event: MouseEvent, id: string) => {
+		event.preventDefault();
+		deleteReserve(id);
+		await goto('/');
+	};
 
-	let handleSubmit = (event: SubmitEvent) => {
+	const handleSeatedClick = async (event: MouseEvent, id: string) => {
+		event.preventDefault();
+		updateSeated(id);
+		await goto('/');
+	};
+	let handleSubmit = async (event: SubmitEvent) => {
 		event.preventDefault();
 		if (data) {
 			let update = {
@@ -49,9 +61,8 @@
 				id,
 				seated: data?.seated
 			};
-			console.log(date);
 			updateReserve(data.id, update);
-			window.history.back();
+			await goto('/');
 		}
 	};
 </script>
@@ -67,13 +78,13 @@
 	<div class="row w-100 mb-70">
 		<div class="row">
 			Guests
-			<Button handleClick={handleMinusClick} customClass={mathClass}>
+			<Button handleClick={handleMinusClick} customClass={'flex-1'}>
 				{@html MinusIcon}
 			</Button>
 			<span class="count">
 				{count}
 			</span>
-			<Button handleClick={handlePlusClick} customClass={mathClass}>
+			<Button handleClick={handlePlusClick} customClass={'flex-1'}>
 				{@html PlusIcon}
 			</Button>
 		</div>
@@ -84,7 +95,13 @@
 	</div>
 
 	<div class="row w-100 mb-70">
-		<Button {handleClick} {customClass} {type}>Save</Button>
+		<Button handleClick={(event) => handleTrashClick(event, id)}>
+			{@html Trash}
+		</Button>
+
+		<Button handleClick={(event) => handleSeatedClick(event, id)} customClass={'flex-1 bg-orange'}
+			>Seated</Button
+		>
 	</div>
 </form>
 
