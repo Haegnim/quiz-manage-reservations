@@ -2,6 +2,7 @@
 	import SelectIcon from '../../../static/arrow_drop_down.svg?raw';
 	export let selectOption: { table: number; floor: number }[] = [];
 	export let submitEvent: () => void = () => {};
+
 	let isActive: boolean | undefined = false;
 	let isList: boolean = selectOption ? true : false;
 	let optionList = [
@@ -28,7 +29,6 @@
 	function handleClickRemove(index: number, event: MouseEvent) {
 		event.preventDefault();
 		selectOption = selectOption.filter((option) => option !== selectOption[index]);
-		console.log(selectOption);
 		submitEvent();
 	}
 </script>

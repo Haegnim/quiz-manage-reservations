@@ -3,17 +3,12 @@
 	export let blurEvent: () => void = () => {};
 </script>
 
-<textarea bind:value placeholder="Add Note..." on:blur={blurEvent} />
+<textarea
+	bind:value
+	placeholder="Add Note..."
+	on:blur={blurEvent}
+	class="w-full h-60 p-7 rounded-lg border border-gray-300 focus:outline-none"
+/>
 
 <style>
-	textarea {
-		width: 100%;
-		height: 240px;
-		padding: 28px 20px;
-		border-radius: 8px;
-		border: #dbd9d7 1px solid;
-	}
-	textarea:focus {
-		outline: none;
-	}
 </style>

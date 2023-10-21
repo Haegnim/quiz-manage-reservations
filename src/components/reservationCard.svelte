@@ -1,21 +1,14 @@
 <script lang="ts">
 	import Button from './common/button.svelte';
-	import Link from './common/link.svelte';
 	import Trash from '../../static/trash.svg?raw';
 	import Phone from '../../static/phone.svg?raw';
 	import Event from '../../static/event_available.svg?raw';
 	import Group from '../../static/group.svg?raw';
 	import Edit from '../../static/edit.svg?raw';
-	import { deleteReserve, updateSeated } from '../store/stores.ts';
-	export let data: {
-		name: string;
-		phoneNumber: string;
-		guests: number;
-		selectTable: { table: number; floor: number }[];
-		memo?: string;
-		date: string;
-		id: string;
-	};
+	import { deleteReserve, updateSeated, type ReservationCardProps } from '../store/stores.ts';
+	export let data: ReservationCardProps;
+	let table: number[] = [];
+	data && data.selectTable.map((item) => table.push(item.table));
 
 	const handleTrashClick = (event: MouseEvent, id: string) => {
 		event.preventDefault();
@@ -26,36 +19,34 @@
 		event.preventDefault();
 		updateSeated(id);
 	};
-	let table: number[] = [];
-	data && data.selectTable.map((item) => table.push(item.table));
 </script>
 
-<li>
+<li class="w-full">
 	<a href={`/edit/${data.id}`} class="card-box">
 		<div class="info-box">
-			<div class="row mb-20 flex-g-20">
-				<p class="bold">{data.name}</p>
+			<div class="flex items-center mb-6 gap-4">
+				<p>{data.name}</p>
 				<span class="phone">{@html Phone} {data.phoneNumber}</span>
 			</div>
-			<div class="row mb-20">
+			<div class="flex items-center mb-6">
 				{@html Event}
-				<p class="ml-8">{data.date}</p>
+				<p class="ml-2">{data.date}</p>
 			</div>
-			<div class="row mb-20">
+			<div class="flex items-center mb-6">
 				{@html Group}
-				<p class="ml-8">{data.guests}</p>
+				<p class="ml-2">{data.guests}</p>
 			</div>
 
 			{#if data.selectTable.length !== 0}
-				<p class="c-gray font-16 mb-20">
-					Reserved Table <span class="font-20 c-black">{table.join(', ')}</span> · Floor 1
+				<p class="text-gray-w400 text-sm mb-6">
+					Reserved Table <span class="text-black text-xl">{table.join(', ')}</span> · Floor 1
 				</p>
-				<p class="row mb-20 flex-g-20">{data.memo} {@html Edit}</p>
+				<p class="flex items-center mb-6 gap-x-2">{data.memo} {@html Edit}</p>
 			{:else}
 				<p class="no-select">No Selected Table</p>
 			{/if}
 		</div>
-		<div class="row flex-g-20">
+		<div class="flex items-center gap-x-2 mt-auto">
 			<Button handleClick={(event) => handleTrashClick(event, data.id)}>
 				{@html Trash}
 			</Button>
@@ -87,34 +78,6 @@
 	.no-select {
 		font-style: italic;
 		color: #999;
-	}
-	.row {
-		display: flex;
-		align-items: center;
-	}
-	.flex-g-20 {
-		gap: 20px;
-	}
-	.mb-20 {
-		margin-bottom: 20px;
-	}
-	.ml-8 {
-		margin-left: 8px;
-	}
-	.c-gray {
-		color: #57534e;
-	}
-	.c-black {
-		color: #292524;
-	}
-	.font-16 {
-		font-size: 16px;
-	}
-	.font-20 {
-		font-size: 20px;
-	}
-	.bold {
-		font-weight: bold;
 	}
 	.phone {
 		display: flex;

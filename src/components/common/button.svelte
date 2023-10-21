@@ -1,5 +1,4 @@
 <script lang="ts">
-	// export let buttonContent: string;
 	export let type: 'button' | 'submit' = 'button';
 	export let customClass: string = '';
 	export let handleClick: (event: MouseEvent) => void = () => {};

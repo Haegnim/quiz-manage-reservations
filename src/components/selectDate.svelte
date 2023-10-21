@@ -6,20 +6,11 @@
 	import Trash from '../../static/trash.svg?raw';
 	import ArrowDownIcon from '../../static/chevron-down.svg?raw';
 	import ArrowUpIcon from '../../static/chevron-up.svg?raw';
+
 	export let dateData: string = '';
+
 	let isShow = false;
 	let isdial = 'time';
-	let handleShowClick = (event: MouseEvent) => {
-		isShow = !isShow;
-	};
-	let handleDialClick = (event: MouseEvent, type: string) => {
-		isdial = type;
-	};
-
-	const handleTrashClick = (event: MouseEvent) => {
-		event.preventDefault();
-		isShow = !isShow;
-	};
 
 	let hour: string = '00';
 	let minute: string = '00';
@@ -46,8 +37,8 @@
 	let today = new Date();
 	let todayDate = today.getDate();
 	let todayMonth = today.getMonth();
+
 	if (dateData !== '') {
-		console.log(dateData);
 		let date = dateData.split(',');
 		if (date[0] === 'today') {
 			month = monthName(todayMonth);
@@ -60,6 +51,19 @@
 		minute = date[1].split(':')[1].split(' ')[0];
 		meridiem = date[1].split(':')[1].split(' ')[1];
 	}
+
+	let handleShowClick = (event: MouseEvent) => {
+		isShow = !isShow;
+	};
+	let handleDialClick = (event: MouseEvent, type: string) => {
+		isdial = type;
+	};
+
+	const handleTrashClick = (event: MouseEvent) => {
+		event.preventDefault();
+		isShow = !isShow;
+	};
+
 	const updateHourMinute = (props: string, count: number, max: number, min: number) => {
 		let num: number = Number(props) + count;
 		if (num < min) {
@@ -72,12 +76,10 @@
 	};
 
 	const hourCount = (props: string, count: number) => {
-		console.log('hourCount');
 		hour = updateHourMinute(props, count, 12, 1);
 	};
 
 	const minuteCount = (props: string, count: number) => {
-		console.log('minuteCount');
 		minute = updateHourMinute(props, count, 59, 0);
 	};
 
@@ -88,7 +90,6 @@
 
 	const handleTimeCountClick = (type: string, count: number, props: string, event: MouseEvent) => {
 		event.preventDefault();
-		console.log('handleUpClick');
 		if (type === 'hour') {
 			hourCount(props, count);
 		} else if (type === 'minute') {
@@ -105,10 +106,9 @@
 		} else if (num > 11) {
 			num = 0;
 		}
-		console.log(props);
-		console.log(crrentMonth);
 		return monthName(num);
 	};
+
 	const monthMaxDay = (month: number) => {
 		switch (month) {
 			case 3:
@@ -122,6 +122,7 @@
 				return 31;
 		}
 	};
+
 	const dayCount = (props: string, count: number) => {
 		let num: number = Number(props) + count;
 		const crrentMonth = MONTH.indexOf(month);
@@ -133,6 +134,7 @@
 		}
 		return num.toString();
 	};
+
 	const handleDateCountClick = (type: string, count: number, props: string, event: MouseEvent) => {
 		event.preventDefault();
 		if (type === 'month') {

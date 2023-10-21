@@ -12,66 +12,16 @@ export interface ReservationCardProps {
 }
 const initialReservations: ReservationCardProps[] = [
 	{
-		name: '가나다',
+		name: 'David',
 		phoneNumber: '021-523-4521',
 		guests: 3,
 		selectTable: [
-			{ table: 9, floor: 1 },
-			{ table: 5, floor: 1 }
+			{ table: 1, floor: 1 },
+			{ table: 2, floor: 1 }
 		],
 		memo: 'Birthday',
 		date: 'Aug 20, 2:00 AM',
 		id: '1',
-		seated: false
-	},
-	{
-		name: '가나다',
-		phoneNumber: '021-523-4521',
-		guests: 3,
-		selectTable: [{ table: 2, floor: 1 }],
-		memo: 'Birthday',
-		date: 'today, 3:00 AM',
-		id: '2',
-		seated: false
-	},
-	{
-		name: '가나다',
-		phoneNumber: '021-523-4521',
-		guests: 3,
-		selectTable: [{ table: 2, floor: 1 }],
-		memo: 'Birthday',
-		date: 'today, 3:00 AM',
-		id: '2',
-		seated: false
-	},
-	{
-		name: '가나다',
-		phoneNumber: '021-523-4521',
-		guests: 3,
-		selectTable: [{ table: 2, floor: 1 }],
-		memo: 'Birthday',
-		date: 'today, 3:00 AM',
-		id: '2',
-		seated: false
-	},
-	{
-		name: '가나다',
-		phoneNumber: '021-523-4521',
-		guests: 3,
-		selectTable: [{ table: 2, floor: 1 }],
-		memo: 'Birthday',
-		date: 'today, 3:00 AM',
-		id: '2',
-		seated: false
-	},
-	{
-		name: '가나다',
-		phoneNumber: '021-523-4521',
-		guests: 3,
-		selectTable: [{ table: 2, floor: 1 }],
-		memo: 'Birthday',
-		date: 'today, 3:00 AM',
-		id: '2',
 		seated: false
 	}
 ];
@@ -99,7 +49,6 @@ const updateReserve = (id: string, update: ReservationCardProps) => {
 };
 
 const updateSeated = (id: string) => {
-	console.log('어라');
 	reservation.update((reserves) =>
 		reserves.map((reserve) =>
 			reserve.id === id ? { ...reserve, seated: !reserve.seated } : reserve

@@ -1,16 +1,17 @@
 <script lang="ts">
-	// export let buttonContent: string;
 	export let name: string = 'example';
 	export let value: string | number = '';
 	export let inputEvent: (event: Event) => void = () => {};
 	export let blurEvent: () => void = () => {};
+
 	let isActive: boolean = value ? true : false;
-	// let inputElement: HTMLInputElement | undefined;
+
 	function updateIsActive(event: Event) {
 		const target = event.target as HTMLInputElement;
 		isActive = !!target.value;
 		inputEvent(event);
 	}
+
 	function blurIsActive(event: Event) {
 		const target = event.target as HTMLInputElement;
 		isActive = !!target.value;
