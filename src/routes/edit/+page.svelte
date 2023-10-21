@@ -6,12 +6,13 @@
 	import PlusIcon from '../../../static/math-plus.svg?raw';
 	import MinusIcon from '../../../static/math-minus.svg?raw';
 	import SelectDate from '../../components/selectDate.svelte';
-	import { reservation, addReserve } from '../../store/stores.ts';
+	import { addReserve } from '../../store/stores.ts';
 	import { goto } from '$app/navigation';
 	import { v4 as uuidv4 } from 'uuid';
+	import { formatPhoneNumber, validateInput } from '../../utils/validate.ts';
+	import { countPlus, countMinus } from '../../utils/count.ts';
 
 	let type: 'button' | 'submit' = 'submit';
-
 	let nameInputValue: string = '';
 	let phoneInputValue: string = '';
 	let selectOption: { table: number; floor: number }[] = [];
@@ -21,54 +22,17 @@
 	let disabled: boolean = false;
 	$: disabled =
 		nameInputValue === '' && phoneInputValue === '' && count === 0 && date === '' ? true : false;
-	const disabledHandler = () => {
-		if (nameInputValue === '' && phoneInputValue === '' && count === 0 && date === '') {
-			disabled = true;
-		} else {
-			disabled = false;
-		}
-	};
 
-	const MIN_GUESTS = 0;
-	const MAX_GUESTS = 8;
-	let handlePlusClick = () => {
-		if (MAX_GUESTS > count) {
-			count += 1;
-		}
-	};
-	let handleMinusClick = () => {
-		if (MIN_GUESTS < count) {
-			count -= 1;
-		}
-	};
 	const index = uuidv4();
 
-	const formatPhoneNumber = (event: Event) => {
-		const target = event.target as HTMLInputElement;
-		let value = target.value.replace(/\D/g, '');
-		if (value.length > 11) {
-			value = value.slice(0, 11);
-		}
-		if (value.length > 7) {
-			phoneInputValue = value.replace(/(\d{3})(\d{4})(\d+)/, '$1-$2-$3');
-		} else if (value.length > 3) {
-			phoneInputValue = value.replace(/(\d{3})(\d+)/, '$1-$2');
-		} else {
-			phoneInputValue = value;
-		}
-	};
+	const onPhoneInputChange = (event: Event) => (phoneInputValue = formatPhoneNumber(event));
+	const handlePlusClick = () => (count = countPlus(count));
+	const handleMinusClick = () => (count = countMinus(count));
 
 	let handleSubmit = async (event: SubmitEvent) => {
 		event.preventDefault();
-		if (nameInputValue === '') {
-			return alert('이름을 입력해주세요');
-		} else if (phoneInputValue === '') {
-			return alert('전화번호를 입력해주세요');
-		} else if (count === 0) {
-			return alert('인원수를 입력해주세요');
-		} else if (date === '') {
-			return alert('예약 날짜를 입력해주세요');
-		}
+		const isValid = validateInput(nameInputValue, phoneInputValue, count, date);
+		if (!isValid) return;
 		let data = {
 			name: nameInputValue,
 			phoneNumber: phoneInputValue,
@@ -92,7 +56,7 @@
 	<div class="h-fill flex flex-col justify-between gap-12">
 		<div class="flex justify-between items-center gap-5 w-full px-5">
 			<Input name={'name'} bind:value={nameInputValue} />
-			<Input name={'phone'} bind:value={phoneInputValue} inputEvent={formatPhoneNumber} />
+			<Input name={'phone'} bind:value={phoneInputValue} inputEvent={onPhoneInputChange} />
 			<SelectDate bind:dateData={date} />
 			<!-- <Button {handleClick} customClass={mathClass}>Select Date</Button> -->
 		</div>

@@ -15,6 +15,8 @@
 	} from '../../../store/stores.ts';
 	import { page } from '$app/stores';
 	import { goto } from '$app/navigation';
+	import { formatPhoneNumber, validateInput } from '../../../utils/validate.ts';
+	import { countPlus, countMinus } from '../../../utils/count.ts';
 
 	let id = $page.params.id;
 	let data = $reservation.find((reserve) => reserve.id === id);
@@ -25,8 +27,6 @@
 	let noteTextAreaValue: string | undefined = data ? data.memo : '';
 	let count = data ? data.guests : 0;
 	let date = data ? data.date : '';
-	const MIN_GUESTS = 0;
-	const MAX_GUESTS = 8;
 
 	const handleTrashClick = async (event: MouseEvent, id: string) => {
 		event.preventDefault();
@@ -39,30 +39,10 @@
 		updateSeated(id);
 		await goto('/');
 	};
-	const formatPhoneNumber = (event: Event) => {
-		const target = event.target as HTMLInputElement;
-		let value = target.value.replace(/\D/g, '');
-		if (value.length > 11) {
-			value = value.slice(0, 11);
-		}
-		if (value.length > 7) {
-			phoneInputValue = value.replace(/(\d{3})(\d{4})(\d+)/, '$1-$2-$3');
-		} else if (value.length > 3) {
-			phoneInputValue = value.replace(/(\d{3})(\d+)/, '$1-$2');
-		} else {
-			phoneInputValue = value;
-		}
-	};
-	let handleSubmit = async () => {
-		if (nameInputValue === '') {
-			return alert('이름을 입력해주세요');
-		} else if (phoneInputValue === '') {
-			return alert('전화번호를 입력해주세요');
-		} else if (count === 0) {
-			return alert('인원수를 입력해주세요');
-		} else if (date === '') {
-			return alert('예약 날짜를 입력해주세요');
-		}
+	const handleSubmit = async () => {
+		const isValid = validateInput(nameInputValue, phoneInputValue, count, date);
+		if (!isValid) return;
+
 		if (data) {
 			let update = {
 				name: nameInputValue,
@@ -77,18 +57,9 @@
 			updateReserve(data.id, update);
 		}
 	};
-	let handlePlusClick = () => {
-		if (MAX_GUESTS > count) {
-			count += 1;
-		}
-		handleSubmit();
-	};
-	let handleMinusClick = () => {
-		if (MIN_GUESTS < count) {
-			count -= 1;
-		}
-		handleSubmit();
-	};
+	const onPhoneInputChange = (event: Event) => (phoneInputValue = formatPhoneNumber(event));
+	const handlePlusClick = () => (count = countPlus(count, handleSubmit));
+	const handleMinusClick = () => (count = countMinus(count, handleSubmit));
 </script>
 
 <form
@@ -102,7 +73,7 @@
 			<Input
 				name={'phone'}
 				bind:value={phoneInputValue}
-				inputEvent={formatPhoneNumber}
+				inputEvent={onPhoneInputChange}
 				blurEvent={handleSubmit}
 			/>
 			<SelectDate bind:dateData={date} />
