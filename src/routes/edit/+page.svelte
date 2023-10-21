@@ -3,14 +3,12 @@
 	import Textarea from '../../components/common/textarea.svelte';
 	import Button from '../../components/common/button.svelte';
 	import Selecter from '../../components/common/selecter.svelte';
-	import PlusIcon from '../../../static/math-plus.svg?raw';
-	import MinusIcon from '../../../static/math-minus.svg?raw';
 	import SelectDate from '../../components/selectDate.svelte';
+	import Count from '../../components/count.svelte';
 	import { addReserve } from '../../store/stores.ts';
 	import { goto } from '$app/navigation';
 	import { v4 as uuidv4 } from 'uuid';
 	import { formatPhoneNumber, validateInput } from '../../utils/validate.ts';
-	import { countPlus, countMinus } from '../../utils/count.ts';
 
 	let type: 'button' | 'submit' = 'submit';
 	let nameInputValue: string = '';
@@ -26,8 +24,6 @@
 	const index = uuidv4();
 
 	const onPhoneInputChange = (event: Event) => (phoneInputValue = formatPhoneNumber(event));
-	const handlePlusClick = () => (count = countPlus(count));
-	const handleMinusClick = () => (count = countMinus(count));
 
 	let handleSubmit = async (event: SubmitEvent) => {
 		event.preventDefault();
@@ -58,22 +54,10 @@
 			<Input name={'name'} bind:value={nameInputValue} />
 			<Input name={'phone'} bind:value={phoneInputValue} inputEvent={onPhoneInputChange} />
 			<SelectDate bind:dateData={date} />
-			<!-- <Button {handleClick} customClass={mathClass}>Select Date</Button> -->
 		</div>
 
 		<div class="flex justify-between items-start gap-5 w-full px-5">
-			<div class="flex justify-between items-center gap-5">
-				Guests
-				<Button handleClick={handleMinusClick} customClass="flex-1">
-					{@html MinusIcon}
-				</Button>
-				<span class="w-4 text-center">
-					{count}
-				</span>
-				<Button handleClick={handlePlusClick} customClass="flex-1">
-					{@html PlusIcon}
-				</Button>
-			</div>
+			<Count bind:count />
 			<Selecter bind:selectOption>Select Table</Selecter>
 		</div>
 		<div class="flex justify-between items-center gap-5 w-full px-5">

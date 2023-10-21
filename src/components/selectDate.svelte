@@ -6,8 +6,9 @@
 	import Trash from '../../static/trash.svg?raw';
 	import TimeDial from './timeDial.svelte';
 	import DateDial from './dateDial.svelte';
-	export let dateData: string = '';
 
+	export let dateData: string = '';
+	export let submitEvent: () => void = () => {};
 	let isShow = false;
 	let isdial = 'time';
 
@@ -73,6 +74,7 @@
 		} else {
 			dateData = `${month + ' ' + day}, ${hour}:${minute} ${meridiem}`;
 		}
+		submitEvent();
 	};
 </script>
 
