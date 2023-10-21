@@ -1,38 +1,32 @@
-# create-svelte
+## 배포 링크
 
-Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/master/packages/create-svelte).
+[vercel 배포](https://quiz-manage-reservations-dcvd2vdj7-haegnim.vercel.app/edit/051af6ef-5dcd-4f0b-ade5-517e246d3370)
 
-## Creating a project
+## 기술 스택
 
-If you're seeing this, you've probably already done this step. Congrats!
+- svelte kit
+- tailwind css
 
-```bash
-# create a new project in the current directory
-npm create svelte@latest
+## 구현 페이지
 
-# create a new project in my-app
-npm create svelte@latest my-app
+- 메인 페이지
+- 예약 페이지
+
+## 폴더 구조
+
 ```
-
-## Developing
-
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
-
-```bash
-npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
+node_modules/
+src/
+    components/
+        common/                       : 공통 UI 요소 컴포넌트 폴더
+        layout/                       : layout UI 컴포넌트 폴더
+    lib/
+    routes/                           : 메인 페이지
+        edit/                         : 예약 생성 페이지
+            [id]/                     : 예약 수정 페이지
+    store/                            : svelte/store
+    utils/                            : 재사용되는 함수 폴더
+    static/                           : 이미지 파일 등 리소스 파일
+    app.html
+    styles.css
 ```
-
-## Building
-
-To create a production version of your app:
-
-```bash
-npm run build
-```
-
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
