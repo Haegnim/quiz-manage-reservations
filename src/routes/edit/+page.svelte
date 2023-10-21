@@ -11,14 +11,24 @@
 	import { v4 as uuidv4 } from 'uuid';
 
 	let type: 'button' | 'submit' = 'submit';
-	let mathClass = 'flex-1';
-	let customClass = 'flex-1 bg-orange';
+
 	let nameInputValue: string = '';
 	let phoneInputValue: string = '';
 	let selectOption: { table: number; floor: number }[] = [];
 	let noteTextAreaValue: string = '';
 	let count = 0;
 	let date: string = '';
+	let disabled: boolean = false;
+	$: disabled =
+		nameInputValue === '' && phoneInputValue === '' && count === 0 && date === '' ? true : false;
+	const disabledHandler = () => {
+		if (nameInputValue === '' && phoneInputValue === '' && count === 0 && date === '') {
+			disabled = true;
+		} else {
+			disabled = false;
+		}
+	};
+
 	const MIN_GUESTS = 0;
 	const MAX_GUESTS = 8;
 	let handlePlusClick = () => {
@@ -32,6 +42,7 @@
 		}
 	};
 	const index = uuidv4();
+
 	const formatPhoneNumber = (event: Event) => {
 		const target = event.target as HTMLInputElement;
 		let value = target.value.replace(/\D/g, '');
@@ -46,6 +57,7 @@
 			phoneInputValue = value;
 		}
 	};
+
 	let handleSubmit = async (event: SubmitEvent) => {
 		event.preventDefault();
 		if (nameInputValue === '') {
@@ -70,8 +82,6 @@
 		addReserve(data);
 		await goto('/');
 	};
-
-	console.log(nameInputValue);
 </script>
 
 <form
@@ -108,7 +118,7 @@
 	</div>
 
 	<div class="flex justify-between items-center gap-5 w-full px-5">
-		<Button customClass="bg-gradient-orange flex-1" {type}>Save</Button>
+		<Button customClass="bg-gradient-orange flex-1" {type} {disabled}>Save</Button>
 	</div>
 </form>
 

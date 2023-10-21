@@ -322,7 +322,7 @@
 		flex-direction: column;
 		justify-content: center;
 		align-items: center;
-		font-weight: bold;
+		/* font-weight: bold; */
 		font-size: 24px;
 	}
 

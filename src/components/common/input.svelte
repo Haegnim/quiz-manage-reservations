@@ -18,7 +18,7 @@
 	}
 </script>
 
-<div class="relative flex-grow">
+<div class="relative flex-1">
 	<label
 		for={`${name}InputField`}
 		class:active={isActive}

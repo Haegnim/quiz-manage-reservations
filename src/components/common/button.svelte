@@ -3,10 +3,11 @@
 	export let type: 'button' | 'submit' = 'button';
 	export let customClass: string = '';
 	export let handleClick: (event: MouseEvent) => void = () => {};
+	export let disabled: boolean = false;
 	$: combinedClass = `${customClass} btn`;
 </script>
 
-<button on:click={handleClick} class={combinedClass} {type}>
+<button on:click={handleClick} class={combinedClass} {type} class:disabled {disabled}>
 	<slot />
 </button>
 
@@ -33,6 +34,9 @@
 		background: linear-gradient(180deg, #ef7144 0%, #df4c18 70%, #d94714 100%);
 		flex: 7;
 		justify-content: center;
+	}
+	.disabled {
+		opacity: 0.7;
 	}
 	.flex-1 {
 		flex: 1;
