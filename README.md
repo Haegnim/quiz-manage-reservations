@@ -1,6 +1,6 @@
 ## 배포 링크
 
-[vercel 배포](https://quiz-manage-reservations-dcvd2vdj7-haegnim.vercel.app/edit/051af6ef-5dcd-4f0b-ade5-517e246d3370)
+[vercel 배포](https://quiz-manage-reservations-dcvd2vdj7-haegnim.vercel.app)
 
 ## 기술 스택
 
